@@ -9,6 +9,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Pacientes from "./screens/Pacientes/Pacientes";
 import Atendimentos from "./screens/Atendimentos/Atendimentos";
 import Login from "./screens/Login/Login";
+import SignUp from "./screens/SignUp/SignUp";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -69,6 +70,11 @@ const Routes = () => {
           component={Tabs}
         />
         <Stack.Screen
+          name="SignUp"
+          options={{ headerShown: false }}
+          component={SignUp}
+        />
+         <Stack.Screen
           name="Login"
           options={{ headerShown: false }}
           component={Login}

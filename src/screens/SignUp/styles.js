@@ -20,33 +20,6 @@ export const FieldBox = styled.View`
     flex-direction: column;
     margin-top: 20px;
 
-
-`
-
-export const Wrapper = styled.View`
-
-    height: 100%;
-
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-
-
-`
-
-export const Head = styled.View`
-
-height: 200px;
-width: 100%;
-background-color: ${colors.purple};
-border-bottom-left-radius: 15px;
-border-bottom-right-radius: 15px;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-
-
 `
 
 export const Text = styled.Text`
@@ -57,24 +30,6 @@ export const Text = styled.Text`
 
 
 `
-
-export const TextBox = styled.View`
-    display: flex;
-    flex-direction: row;
-    width: 80%;
-    justify-content: space-between;
-
-`
-
-export const Logo = styled.Image`
-
-   width: 60px;
-   height: 64px;
-   margin-bottom:40px;
-
-
-`
-
 
 export const Button = styled.TouchableOpacity`
 
@@ -89,20 +44,8 @@ export const Button = styled.TouchableOpacity`
 
 `
 
-export const Floor = styled.View`
-
-height: 80px;
-background-color: ${colors.gray};
-border-top-left-radius: 40px;
-border-top-right-radius: 40px;
-flex-direction: row;
-justify-content: center;
-align-items: center;
-width: 100%;
-`
-
 export const FormBox = styled.View`
-
+height: 90%;
 width: 100%;
 display: flex;
 align-items: center;
