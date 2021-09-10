@@ -1,31 +1,94 @@
-import React from 'react'
-import { createContext, useEstate, useEffect } from 'react'
-import { auth } from '../services/firebase'
+import React, { useState } from "react";
+import { createContext, useEstate, useEffect, useContext } from "react";
+import { auth, database } from "../services/firebase";
 
-export const AuthContext = createContext()
+export const AuthContext = createContext();
 
-const AuthContext = ({children, navigation}) => {
+export const AuthContextProvider = ({ children}) => {
+
+  const [userName, setUserName] = useState("");
+  const [loading, setLoading] = useState(true);
 
  
 
 
-    const signUp = async (email,password) =>{
-        try{
-            const res = await auth.createUserWithEmailAndPassword(email,password)
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      setLoading(true);
+
+      if (user) {
+        await database
+          .collection("users")
+          .doc(user.uid)
+          .get()
+          .then((doc) => {
+            setUserName(doc.data().name);
+          });
+      } else {
+        setUserName("")
+      }
+
+      setLoading(false);
+
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  const signUpEmail = async (email, password, nome) => {
+    try {
+      const res = await auth.createUserWithEmailAndPassword(email, password);
+
+      if (res.user) {
+        const db = database.collection("users").doc(res.user.uid).set({
+          name: nome,
+        });
         
-        }catch(err){
-            throw new Error(err.message);
-        }
+      }
+    } catch {
+      console.log("ai eh foda");
     }
-    
+  };
 
-    return (
-       <AuthContext.Provider value={{signUp}}>
-           {children}
+  const loginEmail = async (email, password) => {
+    try {
+      const res = await auth.signInWithEmailAndPassword(email, password);
+
+      if (res.user) {
+        console.log("deu boooooOOOOM");
+        console.log(res.user.uid);
+
+        database
+          .collection("users")
+          .doc(res.user.uid)
+          .get()
+          .then((doc) => {
+            setUserName(doc.data().name);
+          });
+      }
+    } catch {
+      console.log("NAAAAAOOOOOO");
+    }
+  };
+
+  const signOut = async () => {
+
+   await auth.signOut()
+ 
+  }
 
 
-       </AuthContext.Provider>
-    )
-}
+  return (
+    <AuthContext.Provider
+      value={{ signUpEmail, loginEmail, loading, userName, setUserName, signOut }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};
 
-export default AuthContext
+export const useAuth = () => {
+  return useContext(AuthContext);
+};

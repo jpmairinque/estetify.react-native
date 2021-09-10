@@ -1,18 +1,24 @@
-import React, { useState } from 'react'
+import React, { useState, useContext} from 'react'
 import * as S from './styles'
 import colors from '../../styles/colors'
 import { TouchableOpacity } from 'react-native'
+import { AuthContext, useAuth } from '../../contexts/AuthContext'
+
 
 const SignUp = ({navigation}) => {
 
+    const [nome, setNome] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [passwordConf,setPasswordConf ] = useState("")
     const [error, setError] = useState("Por favor, informe alguns dados para que possamos te cadastrar")
 
-    const handleSubmit = () => {
+    const {signUpEmail} = useAuth()
+
+    const handleSubmit = async () => {
 
         var pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/; 
+        
 
         if(!email.match(pattern)){
             setError("Insira um endereço de email válido")
@@ -29,7 +35,8 @@ const SignUp = ({navigation}) => {
             return
         }
 
-        navigation.navigate('Login')        
+       await signUpEmail(email, password, nome)
+             
 
     }
 
@@ -50,6 +57,13 @@ const SignUp = ({navigation}) => {
         color={colors.purple}
          size="15px"
         >{error}</S.Text>
+        </S.FieldBox>
+        <S.FieldBox>
+                <S.Text 
+                font="Montserrat-Bold" 
+                color={colors.purple} 
+                size="15px">Nome</S.Text>
+                <S.Field onChangeText={(e)=>{setNome(e)}} />
         </S.FieldBox>
         <S.FieldBox>
                 <S.Text 

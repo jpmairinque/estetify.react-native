@@ -3,9 +3,31 @@ import * as S from './styles'
 import colors from '../../styles/colors'
 import { Text } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import { AuthContext, useAuth } from '../../contexts/AuthContext'
+import { useContext, useState } from 'react'
 import {View} from 'react-native'
 
 const Login = ({navigation}) => {
+    
+    const {loginEmail} = useAuth()
+
+    const [emailLog, setEmailLog] = useState("")
+    const [passwordLog, setPasswordLog] = useState("")
+
+    const handleSubmit = async () => {
+
+        var pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/; 
+        
+
+        if(!emailLog.match(pattern)){
+            setError("Insira um endereço de email válido")
+            return
+        }
+
+        loginEmail(emailLog, passwordLog)
+
+    }
+
     return (
 
   
@@ -23,16 +45,16 @@ const Login = ({navigation}) => {
                 font="Montserrat-Bold" 
                 color={colors.purple} 
                 size="15px">Email</S.Text>
-                <S.Field type="email"/>
+                <S.Field onChangeText={(e)=>{setEmailLog(e)}} />
             </S.FieldBox>
             <S.FieldBox>
                 <S.Text 
                 font="Montserrat-Bold" 
                 color={colors.purple} 
                 size="15px">Senha</S.Text>
-                <S.Field type="email"/>
+                <S.Field onChangeText={(e)=>{setPasswordLog(e)}}/>
             </S.FieldBox>
-            <S.Button>
+            <S.Button onPress={handleSubmit}>
                 <S.Text 
                 color={colors.white} 
                 font="Montserrat-Medium" 

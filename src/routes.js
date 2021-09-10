@@ -5,11 +5,14 @@ import colors from "./styles/colors";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
+import { AuthContext } from "./contexts/AuthContext";
+import { useContext } from "react";
 
 import Pacientes from "./screens/Pacientes/Pacientes";
 import Atendimentos from "./screens/Atendimentos/Atendimentos";
 import Login from "./screens/Login/Login";
 import SignUp from "./screens/SignUp/SignUp";
+import Profile from "./screens/Profile/Profile";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -22,22 +25,24 @@ const Tabs = () => {
         activeTintColor: colors.lime,
         inactiveTintColor: colors.gray,
         showLabel: false,
-       
       }}
       screenOptions={({ route }) => ({
-        
         tabBarIcon: ({ color }) => {
           let iconName;
-          let size 
+          let size;
 
           switch (route.name) {
             case "Pacientes":
               iconName = "people";
-              size=40;
+              size = 40;
               break;
             case "Atendimentos":
               iconName = "clipboard";
-              size = 36
+              size = 36;
+              break;
+            case "Profile":
+              iconName = "person";
+              size = 36;
               break;
           }
 
@@ -55,31 +60,52 @@ const Tabs = () => {
         options={{ headerShown: false }}
         component={Atendimentos}
       />
-      
+      <Tab.Screen
+        name={"Perfil"}
+        options={{ headerShown: false }}
+        component={Profile}
+      />
     </Tab.Navigator>
   );
 };
 
+const AuthStack = () => {
+  return (
+    <Stack.Navigator  initialRouteName="Login">
+      <Stack.Screen
+        name="SignUp"
+        options={{ headerShown: false }}
+        component={SignUp}
+      />
+      <Stack.Screen
+        name="Login"
+        options={{ headerShown: false }}
+        component={Login}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const AppStack = () => {
+  return (
+    <Stack.Navigator >
+      <Stack.Screen
+        name="Home"
+        options={{ headerShown: false }}
+        component={Tabs}
+      />
+    </Stack.Navigator>
+  );
+};
+
 const Routes = () => {
+  const { userName, loading } = useContext(AuthContext);
+
+  if (loading) return null;
+
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen
-          name="Home"
-          options={{ headerShown: false }}
-          component={Tabs}
-        />
-        <Stack.Screen
-          name="SignUp"
-          options={{ headerShown: false }}
-          component={SignUp}
-        />
-         <Stack.Screen
-          name="Login"
-          options={{ headerShown: false }}
-          component={Login}
-        />
-      </Stack.Navigator>
+      {userName ? <AppStack /> : <AuthStack />}
     </NavigationContainer>
   );
 };

@@ -1,11 +1,9 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import Routes from './src/routes';
 import ScreenTemplate from './src/components/ScreenTemplate/ScreenTemplate'
-import { useFonts,Inter_900Black } from '@expo-google-fonts/inter';
+import { useFonts } from '@expo-google-fonts/inter';
 import AppLoading from 'expo-app-loading';
-
+import { AuthContextProvider } from './src/contexts/AuthContext';
 
 export default function App() {
 
@@ -19,9 +17,11 @@ export default function App() {
  
   if(fontsLoaded){
     return(  
+    <AuthContextProvider>
     <ScreenTemplate>
       <Routes/>
     </ScreenTemplate>   
+    </AuthContextProvider>
   )}else{
     return <AppLoading/>
   };
