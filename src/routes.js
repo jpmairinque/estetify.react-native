@@ -41,7 +41,7 @@ const Tabs = () => {
               size = 36;
               break;
             case "Profile":
-              iconName = "person";
+              iconName = "person-circle";
               size = 36;
               break;
           }
@@ -61,7 +61,7 @@ const Tabs = () => {
         component={Atendimentos}
       />
       <Tab.Screen
-        name={"Perfil"}
+        name={"Profile"}
         options={{ headerShown: false }}
         component={Profile}
       />
