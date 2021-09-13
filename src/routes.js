@@ -20,13 +20,23 @@ const Stack = createStackNavigator();
 const Tabs = () => {
   return (
     <Tab.Navigator
-      tabBarOptions={{
-        keyboardHidesTabBar: true,
-        activeTintColor: colors.lime,
-        inactiveTintColor: colors.gray,
-        showLabel: false,
-      }}
+      // tabBarOptions={{
+      //   keyboardHidesTabBar: true,
+      //   activeTintColor: colors.lime,
+      //   inactiveTintColor: colors.gray,
+      //   showLabel: false,
+      // }}
       screenOptions={({ route }) => ({
+        tabBarHideOnKeyboard: true,
+        tabBarActiveTintColor: "#33CC95",
+        tabBarInactiveTintColor: "#E5E5E5",
+        tabBarShowLabel: false,
+        tabBarStyle: [
+          {
+            display: "flex",
+          },
+          null,
+        ],
         tabBarIcon: ({ color }) => {
           let iconName;
           let size;
@@ -71,7 +81,7 @@ const Tabs = () => {
 
 const AuthStack = () => {
   return (
-    <Stack.Navigator  initialRouteName="Login">
+    <Stack.Navigator initialRouteName="Login">
       <Stack.Screen
         name="SignUp"
         options={{ headerShown: false }}
@@ -88,7 +98,7 @@ const AuthStack = () => {
 
 const AppStack = () => {
   return (
-    <Stack.Navigator >
+    <Stack.Navigator>
       <Stack.Screen
         name="Home"
         options={{ headerShown: false }}
