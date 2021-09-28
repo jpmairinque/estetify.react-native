@@ -1,4 +1,4 @@
-# estetify.reactnative
+# Estetify 💆‍♀️
 
 Estetify is an app designed for beauty/aesthetic medicine professional to keep their workflow clean and organized.
 
